@@ -1,0 +1,93 @@
+Installation Instructions
+*************************
+
+Copyright (C) 1994, 1995, 1996, 1999, 2000, 2001, 2002, 2004, 2005,
+2006, 2007, 2008, 2009 Free Software Foundation, Inc.
+
+   Copying and distribution of this file, with or without modification,
+are permitted in any medium without royalty provided the copyright
+notice and this notice are preserved.  This file is offered as-is,
+without warranty of any kind.
+
+WARNING: DON'T EVEN THINK OF ASKING VMWARE FOR HELP. YOU WON'T GET IT!
+
+Application Description
+=======================
+
+The vMotion Detector is an application suite comprised of an C executable and
+a Perl script based upon the VMware vSphere Guest SDK that allows a Windows
+or Linux Guest VM detect when it has its Session ID modified due to an 
+underlying DRS/HA clustered environment change. This application can be 
+modified to work with Oracle OEM, Nagios or any other system monitoring 
+applications.
+
+REQUIRED:
+---------
+64-Bit C/C++ Compiler (GCC Compatible if possible)
+VMware vSphere Guest SDK
+
+
+
+Basic Installation
+==================
+
+Binary Version:
+---------------
+If you have a RHEL or CentOS 5.x platform, you can download the RPM binary,
+which will automatically install a compiled version of the source and its
+front-end trigger Perl script in the /usr/local/bin directory.
+
+Source/Compile Version:
+-----------------------
+See "Compiling the Code" section below.
+
+
+
+Alert Message Modifications (for those of you compiling the code)
+===========================
+
+The vMotion Detector code was originally designed for Oracle OEM 10g/11g
+platform environments, using the needed em_result and em_message codes for
+customizing the e-mail messages when alerted by the Oracle OEM platform.
+
+If you wish to modify the code for other system monitoring platforms, such
+as Nagios, the following lines will need to be modified for your result code
+and, if needed, the alert message that goes along with it.
+
+#ifdef OEM
+		printf("em_result=0\nem_message=No vMotion activity detected.\n");
+#endif
+
+#ifdef OEM
+		printf("em_result=1\nem_message=WARNING! vMotion detected!\n");
+#endif
+
+
+
+Compiling the Code
+==================
+
+Currently the compiling for the actual application is only available for the 
+Linux platform. Future versions of the source code will be modified for
+supporting Windows Server x64 platforms as well.
+
+Compiling for Linux:
+--------------------
+gcc -g -o vmguestsessionid -ldl -I<path to VMware headers> vmGuestSessionId.c
+
+
+Compiling for Windows Server x64:
+---------------------------------
+TBD
+
+
+Application Installation
+========================
+
+The RHEL/CentOS 5.x RPM binary version of the application and its Perl front-end
+script will automatically install to the /usr/local/bin directory.
+
+The source code version will just create the "vmguestsessionid" executable in
+the directory the code is compiled in. There is no Makefile or script for
+copying the executable elsewhere. The default location for where the files
+should be installed to is /usr/local/bin for Linux platforms.

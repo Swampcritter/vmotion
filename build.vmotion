@@ -1,0 +1,2 @@
+rpmbuild -bb --clean /home/rpmbuild/rpmbuild/SPECS/oem_vmotion_detector.spec
+
